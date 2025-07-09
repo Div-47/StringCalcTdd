@@ -1,35 +1,39 @@
 function add(numbers) {
   if (!numbers) return 0;
 
-  let delimiter = /,|\n/;
+  let delimiters = [",", "\n"];
   if (numbers.startsWith("//")) {
-    const delimiterMatch = numbers.match(/^\/\/(.+)\n/);
-    if (delimiterMatch) {
-      const custom = delimiterMatch[1];
-      delimiter = new RegExp(escapeRegExp(custom));
-      numbers = numbers.substring(delimiterMatch[0].length);
+    const delimiterHeaderMatch = numbers.match(/^\/\/(.*?)\n/);
+    const delimiterPart = delimiterHeaderMatch[1];
+    numbers = numbers.slice(delimiterHeaderMatch[0].length);
+
+    const multipleDelimiters = delimiterPart.match(/\[.*?\]/g);
+    if (multipleDelimiters) {
+      delimiters = multipleDelimiters.map((d) => escapeRegExp(d.slice(1, -1)));
+    } else {
+      delimiters = [escapeRegExp(delimiterPart)];
     }
   }
-  const tokens = numbers.split(delimiter);
+  const delimiterRegex = new RegExp(delimiters.join("|"));
+  const tokens = numbers.split(delimiterRegex);
   let result = 0;
   const negatives = [];
+  for (const token of tokens) {
+    if (token.trim() === "") continue;
+    const num = parseInt(token, 10);
+    if (isNaN(num)) continue;
 
-  for (let token of tokens) {
-    if (token === "") continue;
-    const num = parseInt(token);
-     if (num < 0) negatives.push(num);
-    if (!isNaN(num) && num <= 1000) {
-      result += num;
-    }
+    if (num < 0) negatives.push(num);
+    if (num <= 1000) result += num;
   }
-   if (negatives.length) {
+  if (negatives.length) {
     throw new Error(`negative numbers not allowed ${negatives.join(", ")}`);
   }
   return result;
 }
 
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function escapeRegExp(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 module.exports = { add };
