@@ -17,5 +17,9 @@ describe('String Calculator TDD Kata', () => {
     expect(add("1,2,3,4,5")).toBe(15);
   });
 
+  test('handles newlines between numbers', () => {
+    expect(add("1\n2,\n3")).toBe(6);
+  });
+
   
 });
