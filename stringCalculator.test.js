@@ -12,4 +12,10 @@ describe('String Calculator TDD Kata', () => {
   test('adds two numbers', () => {
     expect(add("1,2")).toBe(3);
   });
+
+  test('adds multiple numbers', () => {
+    expect(add("1,2,3,4,5")).toBe(15);
+  });
+
+  
 });
