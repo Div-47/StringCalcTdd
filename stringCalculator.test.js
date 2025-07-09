@@ -8,4 +8,8 @@ describe('String Calculator TDD Kata', () => {
   test('returns number itself for one number', () => {
     expect(add("1")).toBe(1);
   });
+
+  test('adds two numbers', () => {
+    expect(add("1,2")).toBe(3);
+  });
 });
