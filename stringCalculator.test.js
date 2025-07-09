@@ -18,7 +18,19 @@ describe('String Calculator TDD Kata', () => {
   });
 
   test('handles newlines between numbers', () => {
-    expect(add("1\n2,\n3")).toBe(6);
+    expect(add("1\n2,3")).toBe(6);
+  });
+
+  test('supports custom delimiter ";"', () => {
+    expect(add("//;\n1;2")).toBe(3);
+  });
+
+  test('supports custom delimiter "|"', () => {
+    expect(add("//|\n4|5|6")).toBe(15);
+  });
+
+  test('supports custom delimiter "," again', () => {
+    expect(add("//,\n7,3")).toBe(10);
   });
 
   
