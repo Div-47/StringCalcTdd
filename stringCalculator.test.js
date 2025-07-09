@@ -33,5 +33,11 @@ describe('String Calculator TDD Kata', () => {
     expect(add("//,\n7,3")).toBe(10);
   });
 
-  
+  test('ignores numbers greater than 1000', () => {
+    expect(add("2,1001")).toBe(2);
+  });
+
+  test('throws error for negative numbers with list', () => {
+    expect(() => add("1,-2,-3,4")).toThrow("negative numbers not allowed -2, -3");
+  });
 });

@@ -12,13 +12,18 @@ function add(numbers) {
   }
   const tokens = numbers.split(delimiter);
   let result = 0;
+  const negatives = [];
 
   for (let token of tokens) {
     if (token === "") continue;
     const num = parseInt(token);
+     if (num < 0) negatives.push(num);
     if (!isNaN(num) && num <= 1000) {
       result += num;
     }
+  }
+   if (negatives.length) {
+    throw new Error(`negative numbers not allowed ${negatives.join(", ")}`);
   }
   return result;
 }
